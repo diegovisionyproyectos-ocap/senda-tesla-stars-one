@@ -355,7 +355,7 @@ map.addEventListener('mousemove',e=>{hover=evPos(e);const k=cellOf(hover.x,hover
   readout.innerHTML=`<span>${latlon(hover.x,hover.y)}</span><span>Elev <b>${fmt(H[k],0)} m</b></span><span>Pend <b>${fmt(SL[k],1)}°</b>${PASS[k]?'':' <b style="color:var(--crit)">no transitable</b>'}</span><span><b>${SITE.terrainName(k)}</b></span><span>${SITE.units[MIN[k]].n}</span>${SITE.id==='arc'?`<span>Hielo <b>${ICE[k]<.02?'expuesto':fmt(ICE[k],1)+' m'}</b></span>`:''}<span>Regreso <b>${isFinite(RET[k])?mins(RET[k])+' min':'—'}</b></span>`;drawMap()});
 map.addEventListener('mouseleave',()=>{hover=null;drawMap()});
 map.addEventListener('click',e=>{if(hud)return;const p=evPos(e);toast.textContent='';const hit=SITE.stations.find(s=>Math.hypot(s.x-p.x,s.y-p.y)<40);
-  if(mode==='inspect'){dosPt=hit?{x:hit.x,y:hit.y}:p;if(hit){selSt=hit.id;renderPanoSection()}renderDossier();drawMap();return}
+  if(mode==='inspect'){dosPt=hit?{x:hit.x,y:hit.y}:p;if(hit){selSt=hit.id;renderPanoSection()}renderDossier();drawMap();showTab('punto');return}
   if(hit){selSt=hit.id;renderPanoSection();drawMap();return}
   if(seq.find(s=>s.k==='wp'&&Math.hypot(s.x-p.x,s.y-p.y)<30))return;
   const k=cellOf(p.x,p.y);if(!PASS[k]){toast.textContent=`No se puede pasar por ahí: ${SITE.terrainName(k).toLowerCase()}, pendiente ${fmt(SL[k],0)}°.`;return}
@@ -385,7 +385,23 @@ function renderDossier(){const p=dosPt,k=cellOf(p.x,p.y);let ns=null,nd=1e9;SITE
 const grad=st=>'linear-gradient(90deg,'+st.map(c=>`rgb(${c.join(',')})`).join(',')+')';
 function renderLayers(){const el=$('sxLayers');el.innerHTML='';LAYERDEF.units.name=SITE.unitsName;LAYERDEF.units.src=SITE.unitsSrc;
   LY().forEach(l=>{const d=document.createElement('div');d.className='lyr';d.innerHTML=`<label><input type="checkbox" id="sxly-${l.id}" ${l.on?'checked':''}> ${l.name}</label><span class="src">${l.src}</span>${l.on?legendHTML(l.id):''}`;
-    d.querySelector('input').addEventListener('change',ev=>{LAYERDEF[l.id].on=ev.target.checked;renderLayers();drawMap()});el.appendChild(d)})}
+    d.querySelector('input').addEventListener('change',ev=>{LAYERDEF[l.id].on=ev.target.checked;preset='';renderLayers();drawMap()});el.appendChild(d)});renderPresets()}
+// modos rápidos de capas: una decisión en vez de once casillas
+let preset='seg';
+const PRESETS=[
+ {id:'terreno',n:'Terreno',d:'Imagen y relieve',on:['opt','cont','trk']},
+ {id:'seg',n:'Seguridad',d:'Pendientes y peligros',on:['opt','slope','haz','cont','trk']},
+ {id:'ciencia',n:'Ciencia',d:'Hielo y minerales',on:['opt','ice','units','trk']},
+ {id:'regreso',n:'Regreso',d:'Minutos hasta la base',on:['opt','iso','trk']},
+ {id:'rad',n:'Radiación',d:'Dónde protege el relieve',on:['opt','rad','trk']}];
+function applyPreset(id){const p=PRESETS.find(x=>x.id===id);if(!p)return;preset=id;
+  Object.keys(LAYERDEF).forEach(k=>LAYERDEF[k].on=p.on.includes(k));if(id==='ciencia'&&SITE.id==='arc')LAYERDEF.units.on=false;
+  params.opac=id==='terreno'?.6:.68;renderLayers();drawMap()}
+function renderPresets(){const el=$('sxPresets');if(!el)return;el.innerHTML='';
+  PRESETS.forEach(p=>{const b=document.createElement('button');b.type='button';b.className=p.id===preset?'on':'';b.setAttribute('aria-pressed',p.id===preset);b.innerHTML=`${p.n}<small>${p.d}</small>`;b.addEventListener('click',()=>applyPreset(p.id));el.appendChild(b)})}
+function showTab(t){document.querySelectorAll('#sxTabs button').forEach(b=>{const on=b.dataset.tab===t;b.classList.toggle('on',on);b.setAttribute('aria-selected',on)});
+  document.querySelectorAll('.sx-pane').forEach(p=>p.hidden=p.dataset.pane!==t)}
+document.querySelectorAll('#sxTabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
 function legendHTML(id){
   if(id==='trk')return `<div class="legend"><div class="row"><span class="sw" style="background:repeating-linear-gradient(90deg,#f2efe8 0 4px,transparent 4px 7px)"></span>${TRACK.length} puntos · +${fmt(TRACK[TRACK.length-1][3]-TRACK[0][3],0)} m</div></div>`;
   if(id==='topo')return `<div class="legend"><div class="bar" style="background:${grad(R_TOPO)}"></div><div class="ends"><span>${fmt(hmin,0)} m</span><span>${fmt(hmax,0)} m</span></div></div>`;
@@ -406,12 +422,9 @@ function renderStops(){const el=$('sxStops');el.innerHTML='';const h=document.cr
     el.appendChild(d)})}
 let planAlerts=[];
 function renderPlan(){const T=totals,cp=T.cons*100,cc=cp>75?C.crit:cp>60?C.warn:C.ok;
-  $('sxTiles').innerHTML=`<div class="tile"><span class="k">Distancia</span><span class="v">${fmt(T.dist/1000,2)} km</span><span class="s">${fmt(T.walk,1)} h caminando</span></div>
-   <div class="tile"><span class="k">Duración</span><span class="v">${hhmm(T.dur)}</span><span class="s">${hhmm(params.start)} → ${hhmm(T.tEnd)}</span></div>
-   <div class="tile"><span class="k">Consumibles PLSS</span><span class="v" style="color:${cc}">${fmt(cp,0)} %</span><div class="meter"><i style="width:${clamp(cp,0,100)}%;background:${cc}"></i></div></div>
-   <div class="tile"><span class="k">Dosis estimada</span><span class="v">${fmt(T.dose,2)} mSv</span><span class="s">${SEP[params.sep].label.toLowerCase()}</span></div>
-   <div class="tile"><span class="k">Refugio más lejano</span><span class="v">${fmt(T.shelter,0)} min</span><span class="s">${params.rover?'rover de apoyo':'a pie hasta la base'}</span></div>
-   <div class="tile"><span class="k">Ciencia</span><span class="v">${fmt(T.dwell*60,0)} min</span><span class="s">en ${legs.filter(l=>l.to.kind==='st').length} paradas</span></div>`;
+  $('sxTiles').innerHTML=`<div class="tile"><span class="k">Ciencia</span><span class="v">${fmt(T.dwell*60,0)} min</span></div>
+   <div class="tile"><span class="k">Refugio</span><span class="v">${fmt(T.shelter,0)} min</span></div>
+   <div class="tile"><span class="k">Radiación</span><span class="v">${fmt(T.dose,2)} mSv</span></div>`;
   const A=[];
   if(T.failed)A.push(['crit','Sin ruta','Un tramo no tiene paso seguro. Quita o mueve el punto de paso.']);
   if(SITE.id==='arc'&&T.dist>2100)A.push(['warn','Plan 2 km',`La ruta mide ${fmt(T.dist/1000,2)} km, más que los 2 km del plan del equipo.`]);
@@ -424,6 +437,12 @@ function renderPlan(){const T=totals,cp=T.cons*100,cc=cp>75?C.crit:cp>60?C.warn:
   if(SITE.id==='arc')A.push(['warn','Percloratos','El polvo de Arcadia contiene percloratos. Limpiar el traje en la esclusa antes de entrar a la nave.']);
   if(SITE.id==='gale')A.push(['warn','Datos','El último reporte público de REMS es del sol 4995 (78 soles atrás).']);
   if(!A.some(a=>a[0]==='crit'||a[1]==='PLSS'||a[1]==='Luz'))A.unshift(['ok','Listo','El plan cumple los márgenes de seguridad.']);
+  const nCrit=A.filter(a=>a[0]==='crit').length,nWarn=A.filter(a=>a[0]==='warn'&&a[1]!=='Percloratos'&&a[1]!=='Datos').length;
+  const stc=nCrit?C.crit:nWarn?C.warn:C.ok,stt=nCrit?'No salir todavía':nWarn?`Revisar ${nWarn} ${nWarn>1?'avisos':'aviso'}`:'Lista para salir';
+  $('sxStrip').innerHTML=`<div class="m"><span class="k">Distancia</span><span class="v">${fmt(T.dist/1000,2)} km</span></div>
+   <div class="m"><span class="k">Duración · ${hhmm(params.start)} a ${hhmm(T.tEnd)}</span><span class="v">${Math.floor(T.dur)} h ${String(Math.round(T.dur%1*60)).padStart(2,'0')} min</span></div>
+   <div class="m"><span class="k">Oxígeno y energía usados</span><span class="v" style="color:${cc}">${fmt(cp,0)} %</span><div class="bar"><i style="width:${clamp(cp,0,100)}%;background:${cc}"></i></div></div>
+   <div class="m st"><span class="dot" style="background:${stc};box-shadow:0 0 0 4px ${stc}33"></span><span class="k">Estado</span><span class="v" style="font-size:16px;font-family:var(--f-body)">${stt}</span></div>`;
   planAlerts=A;$('sxAlerts').innerHTML=A.map(a=>`<li class="${a[0]}"><span class="pill">${a[1]}</span><span>${a[2]}</span></li>`).join('');
   $('sxLegs').innerHTML='<tr><th>Tramo</th><th>km</th><th>min</th><th>máx °</th><th>Llega</th></tr>'+legs.map(l=>l.ok?`<tr><td>${l.from.id} → ${l.to.id}</td><td>${fmt(l.dist/1000,2)}</td><td>${mins(l.time)}</td><td style="color:${l.maxS>18?C.warn:'inherit'}">${fmt(l.maxS,0)}</td><td>${hhmm(l.t1)}</td></tr>`:`<tr><td>${l.from.id} → ${l.to.id}</td><td colspan="4" style="color:var(--crit)">sin paso seguro</td></tr>`).join('');
   $('sxCrew').innerHTML=SITE.crew.map(c=>`<li>${c}</li>`).join('')}
@@ -601,7 +620,7 @@ function renderLog(){const plan=planAlerts.filter(a=>a[0]!=='ok').map(a=>[SNAP,'
 // ================= controles y arranque =================
 function update(route){if(route){recalcRoute();RP=[]}computeTotals();renderStops();renderPlan();renderLog();drawProfile();drawThermo();renderRad();renderHud();renderDossier();drawMap();if(route&&R3)build3d()}
 function loadSite(id){SITE=SITES[id];resetSeq();params.rover=SITE.roverDefault;$('sxRover').checked=params.rover;
-  genSite();renderStatic();dijkstraHome();renderIso();renderOptical();renderLayers();recalcRoute();RP=[];walkT=0;walking=false;$('sx3dPlay').textContent='▶ Simular caminata';
+  genSite();renderStatic();dijkstraHome();renderIso();renderOptical();legs=[];if(preset)applyPreset(preset);else renderLayers();recalcRoute();RP=[];walkT=0;walking=false;$('sx3dPlay').textContent='▶ Simular caminata';
   update(false);renderPanoSection();if(R3)build3d();
   document.querySelectorAll('#sxSite button').forEach(b=>{b.classList.toggle('on',b.dataset.site===id);b.setAttribute('aria-pressed',b.dataset.site===id)});
   $('sxSiteNote').textContent=id==='arc'?'Sitio de misión del equipo. Terreno modelado con los rasgos típicos de Arcadia: suelo poligonal, hielo somero, depresiones escalonadas y dunas.':'Validación: el mismo planificador corre en Gale, centrado en la posición real de Curiosity, con su recorrido real y el clima de REMS.'}
@@ -614,9 +633,16 @@ $('sxStart').addEventListener('input',e=>{params.start=+e.target.value;$('sxStar
 $('sxTau').addEventListener('input',e=>{params.tau=+e.target.value;$('sxTauV').textContent=fmt(params.tau,1);update(false)});
 $('sxSep').addEventListener('change',e=>{params.sep=e.target.value;renderLayers();update(false)});
 $('sxVex').addEventListener('change',e=>{params.vex=+e.target.value;drawPano()});
-window.addEventListener('hashchange',()=>{if(location.hash==='#eva'){setTimeout(()=>{drawMap();drawPano()},30)}});
+// al entrar a la caminata: guía la primera vez y relieve 3D en pantallas grandes
+let evaSeen=false;
+function enterEva(){setTimeout(()=>{drawMap();
+  if(!evaSeen){evaSeen=true;let seen=false;try{seen=localStorage.getItem('sendaTip')==='1'}catch(e){}$('sxTip').hidden=seen;
+    if(window.innerWidth>900&&view==='2d')setView('3d')}},40)}
+$('sxTipOk').addEventListener('click',()=>{$('sxTip').hidden=true;try{localStorage.setItem('sendaTip','1')}catch(e){}});
+$('sxPanoAcc').addEventListener('toggle',e=>{if(e.target.open)drawPano()});
+window.addEventListener('hashchange',()=>{if(location.hash==='#eva')enterEva()});
 window.addEventListener('resize',()=>{if(location.hash==='#eva')drawMap()});
-if(location.hash==='#eva')setTimeout(()=>{drawMap();drawPano()},60);
+if(location.hash==='#eva')enterEva();
 renderFeeds();renderLogFilter();loadSite('arc');
 setInterval(renderStatus,1000);
 })();

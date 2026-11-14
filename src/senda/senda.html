@@ -1,120 +1,126 @@
 <div data-pg="eva" hidden class="sx">
-  <div class="sxhead">
-    <div style="display:grid;gap:6px;min-width:0">
-      <span class="eyebrow">Planificador de caminata · Senda</span>
-      <h2 class="sxh2">Caminata de 2 km paso a paso</h2>
-      <p class="note">Elige el sitio, revisa las capas y deja que Senda trace la ruta más segura. La vista 3D muestra el terreno en relieve y simula al astronauta caminando.</p>
+  <header class="sx-top">
+    <div class="sx-title">
+      <h2 class="sxh2">Caminata de 2 km</h2>
+      <p class="note" id="sxSiteNote"></p>
     </div>
-    <div class="row2">
-      <div class="seg" role="group" aria-label="Sitio" id="sxSite">
-        <button type="button" data-site="arc" class="on" aria-pressed="true">Base Ártemis · Arcadia</button>
-        <button type="button" data-site="gale" aria-pressed="false">Gale · validación</button>
-      </div>
-      <button id="sxHudBtn" type="button" aria-pressed="false">Vista visera (HUD)</button>
+    <div class="seg" role="group" aria-label="Sitio" id="sxSite">
+      <button type="button" data-site="arc" class="on" aria-pressed="true">Arcadia · misión</button>
+      <button type="button" data-site="gale" aria-pressed="false">Gale · validación</button>
     </div>
+  </header>
+
+  <div class="sx-tip" id="sxTip" hidden>
+    <ol><li><b>Toca el mapa</b> para revisar cualquier punto.</li><li><b>Cambia a 3D</b> para ver el relieve.</li><li><b>Simula la caminata</b> y sigue al astronauta.</li></ol>
+    <button type="button" id="sxTipOk">Entendido</button>
   </div>
-  <p class="note" id="sxSiteNote"></p>
 
-  <div class="grid">
-    <aside class="layers panel" aria-label="Capas de datos">
-      <div class="sec"><h3>Capas</h3><div id="sxLayers"></div></div>
-      <div class="sec"><label for="sxOpac" class="lbl">Opacidad de capas temáticas</label><input id="sxOpac" type="range" min="0.2" max="1" step="0.05" value="0.6"></div>
-    </aside>
+  <div class="sx-strip" id="sxStrip" aria-live="polite"></div>
 
-    <section class="mapcol">
-      <div class="toolbar">
-        <div class="seg" role="group" aria-label="Vista"><button type="button" id="sx2dBtn" class="on" aria-pressed="true">Mapa 2D</button><button type="button" id="sx3dBtn" aria-pressed="false">Relieve 3D</button></div>
-        <div class="seg" role="group" aria-label="Modo del mapa"><button type="button" id="sxInspect" class="on" aria-pressed="true">Inspeccionar</button><button type="button" id="sxAdd" aria-pressed="false">Añadir punto de paso</button></div>
+  <div class="sx-main">
+    <section class="sx-view" aria-label="Mapa de la caminata">
+      <div class="sx-viewbar">
+        <div class="seg" role="group" aria-label="Vista"><button type="button" id="sx2dBtn" class="on" aria-pressed="true">Mapa</button><button type="button" id="sx3dBtn" aria-pressed="false">3D</button></div>
+        <div class="seg" role="group" aria-label="Al tocar el mapa"><button type="button" id="sxInspect" class="on" aria-pressed="true">Inspeccionar</button><button type="button" id="sxAdd" aria-pressed="false">+ Punto</button></div>
+        <button type="button" class="ghost" id="sxHudBtn" aria-pressed="false" title="Vista de la visera del casco">Visera</button>
         <span class="toast" id="sxToast" role="status"></span>
       </div>
       <div id="sxMapBox">
         <div class="mapbox">
           <canvas id="sxMap" width="900" height="900" aria-label="Mapa del sitio de la caminata"></canvas>
-          <div class="hud" id="sxHud" hidden>
-            <div class="tape"><canvas id="sxTape" width="900" height="58"></canvas></div>
-            <div class="card" id="sxHudCard"></div>
-          </div>
+          <div class="hud" id="sxHud" hidden><div class="tape"><canvas id="sxTape" width="900" height="58"></canvas></div><div class="card" id="sxHudCard"></div></div>
         </div>
-        <div class="readout" id="sxReadout"><span>Pasa el cursor sobre el mapa para leer el terreno.</span></div>
+        <div class="readout" id="sxReadout"><span>Pasa el cursor o toca el mapa para leer el terreno.</span></div>
       </div>
       <div id="sx3dBox" hidden>
-        <div class="box3d" id="sx3d"><div class="lbl3d" id="sx3dLabels"></div>
-          <div class="info3d" id="sx3dInfo"></div>
-        </div>
+        <div class="box3d" id="sx3d"><div class="lbl3d" id="sx3dLabels"></div><div class="info3d" id="sx3dInfo"></div>
+          <button type="button" class="play" id="sx3dPlay">▶ Simular caminata</button></div>
         <div class="ctl3d">
-          <button type="button" id="sx3dPlay">▶ Simular caminata</button>
           <input type="range" id="sx3dSlider" min="0" max="1000" value="0" aria-label="Avance de la caminata">
-          <label class="row2" style="font-size:13px"><input type="checkbox" id="sx3dFollow"> Seguir al astronauta</label>
-          <button type="button" id="sx3dTop">Vista superior</button>
-          <button type="button" id="sx3dReset">Vista inicial</button>
+          <label class="chk"><input type="checkbox" id="sx3dFollow"> Seguir</label>
+          <button type="button" class="ghost" id="sx3dTop">Desde arriba</button>
+          <button type="button" class="ghost" id="sx3dReset">Reiniciar vista</button>
         </div>
-        <p class="note">Arrastra para girar, rueda para acercar, clic derecho o Mayús para mover. Las capas activas del mapa se pintan sobre el relieve. Altura exagerada para que se lean las formas.</p>
       </div>
-      <section class="panel" aria-label="Dossier del punto">
-        <div class="row2" style="justify-content:space-between"><h3>Dossier del punto</h3><span class="note mono" id="sxWhere"></span></div>
-        <div class="verdict" id="sxVerdict"></div>
-        <div class="dossier" id="sxDossier"></div>
-      </section>
     </section>
 
-    <aside class="plan panel" aria-label="Plan de la caminata">
-      <div class="sec"><h3>Resumen</h3><div class="tiles" id="sxTiles"></div></div>
-      <div class="sec"><h3>Alertas</h3><ul class="alerts" id="sxAlerts"></ul></div>
-      <div class="sec"><h3>Paradas</h3><div class="stops" id="sxStops"></div></div>
-      <div class="sec"><h3>Tramos</h3><div class="tablebox"><table class="legs" id="sxLegs"></table></div></div>
-      <div class="sec"><h3>Tripulación y carga</h3><ul class="crew" id="sxCrew"></ul>
-        <label class="row2" style="font-size:13px"><input type="checkbox" id="sxRover"> Rover presurizado acompaña (refugio a ≤ 10 min)</label>
-        <label for="sxPayload" class="lbl">Carga del astronauta: <b id="sxPayloadV" class="mono">12 kg</b></label>
-        <input id="sxPayload" type="range" min="0" max="35" step="1" value="12">
+    <aside class="sx-side" aria-label="Plan, capas y punto">
+      <div class="sx-tabs" id="sxTabs" role="tablist">
+        <button type="button" role="tab" data-tab="plan" class="on" aria-selected="true">Plan</button>
+        <button type="button" role="tab" data-tab="capas" aria-selected="false">Capas</button>
+        <button type="button" role="tab" data-tab="punto" aria-selected="false">Punto</button>
+      </div>
+      <div class="sx-pane" data-pane="plan">
+        <ul class="alerts" id="sxAlerts"></ul>
+        <h3>Paradas</h3>
+        <div class="stops" id="sxStops"></div>
+        <p class="note">Con «+ Punto» puedes tocar el mapa para desviar la ruta.</p>
+        <div class="tiles" id="sxTiles"></div>
+        <details class="mini"><summary>Tripulación y carga</summary>
+          <ul class="crew" id="sxCrew"></ul>
+          <label class="chk"><input type="checkbox" id="sxRover"> Rover presurizado acompaña</label>
+          <label for="sxPayload" class="lbl">Carga del astronauta: <b id="sxPayloadV" class="mono">12 kg</b></label>
+          <input id="sxPayload" type="range" min="0" max="35" step="1" value="12">
+        </details>
+      </div>
+      <div class="sx-pane" data-pane="capas" hidden>
+        <p class="note">Elige qué quieres ver sobre el terreno.</p>
+        <div class="presets" id="sxPresets"></div>
+        <details class="mini"><summary>Todas las capas</summary>
+          <div id="sxLayers"></div>
+          <label for="sxOpac" class="lbl">Intensidad de las capas</label>
+          <input id="sxOpac" type="range" min="0.2" max="1" step="0.05" value="0.6">
+        </details>
+      </div>
+      <div class="sx-pane" data-pane="punto" hidden>
+        <p class="note mono" id="sxWhere"></p>
+        <div class="verdict" id="sxVerdict"></div>
+        <div class="dossier" id="sxDossier"></div>
       </div>
     </aside>
   </div>
 
-  <div class="lower">
-    <section class="panel profile"><div class="row2" style="justify-content:space-between"><h3>Perfil de elevación</h3><span class="note mono" id="sxProfMeta"></span></div>
-      <canvas class="chart" id="sxProfile" width="860" height="230" aria-label="Perfil de elevación de la ruta"></canvas></section>
-    <section class="panel"><h3>Ventana térmica</h3>
-      <canvas class="chart" id="sxThermo" width="560" height="220" aria-label="Temperatura del aire durante el sol"></canvas>
-      <label for="sxStart" class="lbl">Salida de la esclusa: <b class="mono" id="sxStartV">10:00</b></label><input id="sxStart" type="range" min="6.5" max="15" step="0.25" value="10">
-      <label for="sxTau" class="lbl">Opacidad del polvo τ: <b class="mono" id="sxTauV">0,6</b></label><input id="sxTau" type="range" min="0.3" max="2.5" step="0.1" value="0.6">
-      <dl class="kv" id="sxAtmo"></dl></section>
-    <section class="panel"><h3>Clima espacial</h3>
-      <label for="sxSep" class="lbl">Escenario de radiación</label>
-      <select id="sxSep"><option value="quiet">Tranquilo: rayos cósmicos (estado actual)</option><option value="mod">Alerta: evento solar moderado</option><option value="strong">Tormenta: evento fuerte, tipo mayo de 2024</option></select>
-      <dl class="kv" id="sxRad"></dl><div class="action" id="sxRadAction"></div>
-      <p class="note">El detector RAD de Curiosity mide ≈ 0,67 mSv/día en la superficie. En mayo de 2024 registró 8,1 mGy en un solo evento solar.</p></section>
-  </div>
-
-  <section class="panel">
-    <div class="row2" style="justify-content:space-between"><h3>Vista en primera persona</h3>
-      <label class="row2 lbl">Exageración vertical <select id="sxVex"><option value="1">×1 real</option><option value="3" selected>×3</option><option value="6">×6</option></select></label></div>
+  <details class="sx-acc" open><summary><span>Perfil de elevación</span><span class="note mono" id="sxProfMeta"></span></summary>
+    <canvas class="chart" id="sxProfile" width="860" height="230" aria-label="Perfil de elevación de la ruta"></canvas></details>
+  <details class="sx-acc"><summary><span>Tramos de la ruta</span></summary><div class="tablebox"><table class="legs" id="sxLegs"></table></div></details>
+  <details class="sx-acc"><summary><span>Hora de salida y temperatura</span></summary>
+    <div class="acc2"><canvas class="chart" id="sxThermo" width="560" height="220" aria-label="Temperatura del aire durante el sol"></canvas>
+      <div class="ctlcol">
+        <label for="sxStart" class="lbl">Salida de la esclusa: <b class="mono" id="sxStartV">10:00</b></label><input id="sxStart" type="range" min="6.5" max="15" step="0.25" value="10">
+        <label for="sxTau" class="lbl">Polvo en el aire (τ): <b class="mono" id="sxTauV">0,6</b></label><input id="sxTau" type="range" min="0.3" max="2.5" step="0.1" value="0.6">
+        <dl class="kv" id="sxAtmo"></dl></div></div></details>
+  <details class="sx-acc"><summary><span>Radiación y clima espacial</span></summary>
+    <div class="acc2"><div class="ctlcol"><label for="sxSep" class="lbl">Escenario</label>
+      <select id="sxSep"><option value="quiet">Tranquilo (estado actual)</option><option value="mod">Evento solar moderado</option><option value="strong">Tormenta solar, tipo mayo de 2024</option></select>
+      <div class="action" id="sxRadAction"></div></div><dl class="kv" id="sxRad"></dl></div>
+    <p class="note">El detector RAD de Curiosity mide ≈ 0,67 mSv/día en la superficie. En mayo de 2024 registró 8,1 mGy en un solo evento solar.</p></details>
+  <details class="sx-acc" id="sxPanoAcc"><summary><span>Lo que verás en cada parada</span></summary>
     <div class="tabs" id="sxStTabs"></div>
     <div class="panobox"><canvas id="sxPano" width="1440" height="200" aria-label="Panorama de 360 grados desde la parada"></canvas></div>
-    <div class="stinfo" id="sxStInfo"></div>
-  </section>
+    <label class="lbl row2">Exageración del relieve <select id="sxVex"><option value="1">×1 real</option><option value="3" selected>×3</option><option value="6">×6</option></select></label>
+    <div class="stinfo" id="sxStInfo"></div></details>
 </div>
 
 <div data-pg="consola" hidden class="sx">
-  <div class="sxhead"><div style="display:grid;gap:6px;min-width:0"><span class="eyebrow">Consola de inteligencia · Senda</span><h2 class="sxh2">Todo lo que la tripulación debe saber hoy</h2>
-    <p class="note">Fuentes abiertas de NASA y NOAA en un solo tablero. Los datos son una instantánea del 14 nov 2026; el reloj y el enlace Tierra–Marte se calculan en vivo.</p></div></div>
+  <header class="sx-top"><div class="sx-title"><h2 class="sxh2">En vivo</h2>
+    <p class="note">Lo que la tripulación debe saber hoy, desde fuentes abiertas de NASA y NOAA. Los datos son del 14 nov 2026; el reloj y la señal Tierra–Marte se calculan en vivo.</p></div></header>
   <section class="feeds" aria-label="Fuentes">
     <article class="feed" id="sxFArc"></article><article class="feed" id="sxFRover"></article><article class="feed" id="sxFAtm"></article><article class="feed" id="sxFSw"></article><article class="feed" id="sxFLink"></article>
   </section>
   <div class="intel">
-    <section class="panel"><div class="row2" style="justify-content:space-between"><h3>Bitácora</h3><div class="seg" role="group" aria-label="Filtrar bitácora" id="sxLogFilter"></div></div><ul class="log" id="sxLog"></ul></section>
-    <section class="panel"><div class="row2" style="justify-content:space-between"><h3>Imágenes reales de Curiosity · sol 5073</h3><a class="note" href="https://science.nasa.gov/mission/msl-curiosity/raw-images/" target="_blank" rel="noopener">Archivo completo</a></div>
+    <section class="panel"><div class="row2" style="justify-content:space-between"><h3>Imágenes de Curiosity · sol 5073</h3><a class="note" href="https://science.nasa.gov/mission/msl-curiosity/raw-images/" target="_blank" rel="noopener">Ver archivo</a></div>
       <div class="gallery">
-        <figure style="grid-column:1/-1"><img src="img/fhaz.jpg" alt="Hazcam frontal: losas claras fracturadas y la ladera del Monte Sharp" loading="lazy" style="aspect-ratio:16/9"><figcaption><b>Hazcam frontal</b> · 13 nov 2026 15:38 UTC · losas claras, arena oscura y la ladera del Monte Sharp</figcaption></figure>
-        <figure><img src="img/nav.jpg" alt="Navcam: rueda de Curiosity sobre losas y arena" loading="lazy"><figcaption><b>Navcam</b> · 16:01 UTC · rueda sobre losas y arena</figcaption></figure>
-        <figure><img src="img/rmi.jpg" alt="Telescopio de ChemCam: dunas y ladera lejana" loading="lazy"><figcaption><b>ChemCam RMI</b> · 12:42 UTC · dunas y ladera lejana</figcaption></figure>
-      </div>
-      <p class="note">Así se ve hoy un terreno marciano a la escala de una caminata. Imágenes en bruto de NASA/JPL-Caltech.</p></section>
+        <figure style="grid-column:1/-1"><img src="img/fhaz.jpg" alt="Hazcam frontal: losas claras fracturadas y la ladera del Monte Sharp" loading="lazy" style="aspect-ratio:16/9"><figcaption><b>Hazcam frontal</b> · losas claras, arena oscura y el Monte Sharp al fondo</figcaption></figure>
+        <figure><img src="img/nav.jpg" alt="Navcam: rueda de Curiosity sobre losas y arena" loading="lazy"><figcaption><b>Navcam</b> · rueda sobre losas y arena</figcaption></figure>
+        <figure><img src="img/rmi.jpg" alt="Telescopio de ChemCam: dunas y ladera lejana" loading="lazy"><figcaption><b>ChemCam</b> · dunas y ladera lejana</figcaption></figure>
+      </div></section>
+    <section class="panel"><div class="row2" style="justify-content:space-between"><h3>Bitácora</h3><div class="seg" role="group" aria-label="Filtrar bitácora" id="sxLogFilter"></div></div><ul class="log" id="sxLog"></ul></section>
   </div>
-  <section class="panel"><h3>Cómo se conecta en vivo</h3>
-    <div class="tablebox"><table class="api"><tr><th>Dato</th><th>Endpoint público</th><th>Uso</th></tr>
-      <tr><td>Posición y recorrido de Curiosity</td><td><code>mars.nasa.gov/mmgis-maps/MSL/Layers/json/MSL_waypoints.json</code></td><td>Sitio de validación</td></tr>
-      <tr><td>Clima REMS</td><td><code>mars.nasa.gov/rss/api/?feed=weather&amp;category=msl&amp;feedtype=json</code></td><td>Ventana térmica</td></tr>
-      <tr><td>Imágenes del rover</td><td><code>mars.nasa.gov/api/v1/raw_image_items/</code></td><td>Galería y bitácora</td></tr>
-      <tr><td>Clima espacial</td><td><code>services.swpc.noaa.gov/json/</code> · <code>kauai.ccmc.gsfc.nasa.gov/DONKI/</code></td><td>Kp, fulguraciones, partículas</td></tr>
-      <tr><td>Relieve, hielo y minerales</td><td><code>trek.nasa.gov/mars</code> · HiRISE · SHARAD · CRISM · THEMIS</td><td>Capas a escala de caminata</td></tr></table></div></section>
+  <details class="sx-acc"><summary><span>Cómo se conecta en vivo</span></summary>
+    <div class="tablebox"><table class="api"><tr><th>Dato</th><th>Fuente pública</th><th>Uso</th></tr>
+      <tr><td>Posición de Curiosity</td><td><code>mars.nasa.gov/mmgis-maps/MSL/Layers/json/MSL_waypoints.json</code></td><td>Validación en Gale</td></tr>
+      <tr><td>Clima REMS</td><td><code>mars.nasa.gov/rss/api/?feed=weather&amp;category=msl&amp;feedtype=json</code></td><td>Temperatura</td></tr>
+      <tr><td>Imágenes del rover</td><td><code>mars.nasa.gov/api/v1/raw_image_items/</code></td><td>Galería</td></tr>
+      <tr><td>Clima espacial</td><td><code>services.swpc.noaa.gov/json/</code></td><td>Radiación</td></tr>
+      <tr><td>Relieve, hielo y minerales</td><td><code>trek.nasa.gov/mars</code> · HiRISE · SHARAD · CRISM · THEMIS</td><td>Capas</td></tr></table></div></details>
 </div>

@@ -46,7 +46,7 @@ SITES.forEach(s=>{
 // estado de cámara
 const st={yaw:0,pitch:.35,dist:34,ty:0,tp:.35,td:34,auto:true,idle:0,sel:null};
 function focus(s){const p=s.p,a=Math.atan2(-p.x,p.z);let d=a-st.yaw;d=((d+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;st.ty=st.yaw+d;
-  st.tp=Math.atan2(p.y,Math.hypot(p.x,p.z));st.td=Math.min(st.td,24);st.auto=false;st.idle=0;st.sel=s;info()}
+  st.tp=Math.atan2(p.y,Math.hypot(p.x,p.z));st.td=Math.min(st.td,29);st.auto=false;st.idle=0;st.sel=s;info()}
 function info(){const e=document.getElementById('glbInfo'),s=st.sel;const en=L()==='en';
   if(!s){e.innerHTML=`<b>${en?'Mars · candidate sites':'Marte · sitios candidatos'}</b><span>${en?'Drag to rotate, scroll or pinch to zoom. Tap a site.':'Arrastra para girar, rueda o pellizco para acercar. Toca un sitio.'}</span>`;return}
   const c=NN()&&NN().c[s.k],chosen=c?c[3]:null;
@@ -81,5 +81,5 @@ function frame(t){requestAnimationFrame(frame);if(!box.offsetParent)return;const
   rd.render(sc,cam)}
 requestAnimationFrame(frame);
 // arranque: mostrar Arcadia primero
-focus(SITES[0]);st.td=st.dist=30;st.yaw=st.ty;st.pitch=st.tp;st.idle=0;
+focus(SITES[0]);st.td=st.dist=36;st.yaw=st.ty;st.pitch=st.tp;st.idle=0;
 })();

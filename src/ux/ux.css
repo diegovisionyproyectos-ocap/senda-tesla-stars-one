@@ -1,0 +1,96 @@
+/* SENDA · experiencia minimalista — TESLA STARS ONE */
+:root{--ux-bg:#0A1020;--ux-s1:rgba(238,241,247,.04);--ux-s2:rgba(238,241,247,.07);--ux-line:rgba(238,241,247,.09);--ux-tx:#EEF1F7;--ux-mu:#9AA3B5;--ux-blue:#3B7BFF;--ux-ocre:#E8894A;--ux-cyan:#8FE3FF;--ux-r:14px}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{padding-top:64px}
+/* lo que reemplaza el shell nuevo */
+.brandbar,#nv,#sxStatus,.eyebrow-b,.w>h1,.slogan,.brandfoot{display:none!important}
+.w{padding-top:8px}
+/* barra de navegación */
+.ux-nav{position:fixed;top:0;left:0;right:0;z-index:50;height:64px;display:flex;align-items:center;gap:20px;
+  padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));
+  background:rgba(10,16,32,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--ux-line)}
+.ux-nav a{border:0;background:transparent;border-radius:999px;min-height:0}
+.ux-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ux-tx);font:700 18px var(--se);letter-spacing:-.01em;flex:none}
+.ux-brand svg{width:34px;height:34px;display:block}
+.ux-tabs{display:flex;gap:4px;margin-inline:auto}
+.ux-tabs a{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ux-mu);font:500 14px 'IBM Plex Sans',system-ui,sans-serif;padding:9px 14px;border-radius:999px;transition:background .2s,color .2s}
+.ux-tabs a svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ux-tabs a:hover{color:var(--ux-tx);background:var(--ux-s1)}
+.ux-nav .ux-tabs a.on{color:var(--ux-tx);background:var(--ux-s2)}
+.ux-tabs a:focus-visible,.ux-btn:focus-visible,.ux-seg a:focus-visible,.ux-step:focus-visible{outline:2px solid var(--ux-cyan);outline-offset:2px}
+.ux-right{display:flex;align-items:center;gap:10px;flex:none}
+.ux-chip{display:inline-flex;align-items:center;gap:7px;font:500 12px var(--mo);color:var(--ux-mu);padding:6px 10px;border-radius:999px;background:var(--ux-s1)}
+.ux-chip i,.ux-livebar i{width:7px;height:7px;border-radius:50%;background:#6dffb0;box-shadow:0 0 0 3px rgba(109,255,176,.18);display:inline-block}
+.ux-right .lang button{padding:6px 10px;font-size:12px;min-height:0}
+/* celular: barra inferior tipo app */
+@media (max-width:760px){
+  body{padding-top:56px;padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
+  .ux-nav{height:56px;gap:10px;-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(10,16,32,.97)}
+  .ux-chip{display:none}
+  .ux-tabs{position:fixed;left:0;right:0;bottom:0;margin:0;justify-content:space-around;gap:0;
+    padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px));
+    background:rgba(10,16,32,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--ux-line)}
+  .ux-tabs a{flex-direction:column;gap:3px;font-size:11px;padding:6px 4px;border-radius:12px;flex:1;min-width:0;text-align:center}
+  .ux-tabs a svg{width:22px;height:22px}
+  .ux-nav .ux-tabs a.on{background:rgba(143,227,255,.10);color:var(--ux-cyan)}
+}
+/* sub-pestañas de cada etapa */
+.ux-sub{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:14px 0 4px}
+.ux-sub[hidden]{display:none}
+.ux-sub-t{font:600 13px var(--mo);letter-spacing:.14em;text-transform:uppercase;color:var(--ux-mu)}
+.ux-seg{display:inline-flex;gap:2px;padding:3px;border-radius:999px;background:var(--ux-s1);max-width:100%;overflow-x:auto;scrollbar-width:none}
+.ux-seg::-webkit-scrollbar{display:none}
+.ux-seg a{white-space:nowrap;text-decoration:none;color:var(--ux-mu);font:500 13.5px 'IBM Plex Sans',system-ui,sans-serif;padding:8px 14px;border-radius:999px;transition:background .2s,color .2s}
+.ux-seg a:hover{color:var(--ux-tx)}
+.ux-seg a.on{background:var(--ux-tx);color:var(--ux-bg)}
+@media (max-width:760px){.ux-sub-t{display:none}.ux-seg{width:100%}.ux-seg a{flex:1;text-align:center;padding:8px 10px}}
+/* transición suave entre páginas */
+.ux-in{animation:uxIn .35s ease both}
+@keyframes uxIn{from{opacity:.001;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.ux-in{animation:none}}
+/* inicio */
+.ux-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:32px;align-items:center;min-height:calc(100vh - 140px);padding-block:12px 24px}
+@media (max-width:900px){.ux-hero{grid-template-columns:minmax(0,1fr);min-height:0;gap:20px}}
+.ux-hero-txt{display:grid;gap:18px;align-content:center}
+.ux-eyebrow{font:500 12px var(--mo);letter-spacing:.14em;text-transform:uppercase;color:var(--ux-cyan)}
+.ux-h1{font:700 clamp(3.4rem,10vw,6.4rem)/.95 var(--se);letter-spacing:-.04em;margin:0;color:var(--ux-tx)}
+.ux-lead{font:400 clamp(17px,2.1vw,21px)/1.5 'IBM Plex Sans',system-ui,sans-serif;color:#cfd5e2;max-width:34ch;margin:0}
+.ux-lead em{font-style:normal;color:var(--ux-ocre);font-weight:500}
+.ux-cta{display:flex;flex-wrap:wrap;gap:10px}
+.ux-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;text-decoration:none;font:600 15px 'IBM Plex Sans',system-ui,sans-serif;color:var(--ux-tx);background:var(--ux-s2);transition:transform .15s,background .2s}
+.ux-btn:hover{background:rgba(238,241,247,.12)}
+.ux-btn:active{transform:scale(.97)}
+.ux-btn.pri{background:var(--ux-blue);color:#fff}
+.ux-btn.pri:hover{background:#5a90ff}
+.ux-livebar{display:flex;flex-wrap:wrap;gap:6px 18px;font:12px var(--mo);color:var(--ux-mu)}
+.ux-livebar span{display:inline-flex;align-items:center;gap:7px}.ux-livebar b{color:var(--ux-tx);font-weight:500}
+.ux-hero-globe{min-width:0}
+.ux-hero-globe .globe{aspect-ratio:1/1;min-height:0;max-height:min(78vh,640px);border:0;background:transparent;border-radius:24px}
+.ux-hero-globe .glb-src,.ux-hero-globe .glb-info{display:none}
+.ux-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding-block:8px 32px}
+@media (max-width:900px){.ux-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.ux-steps{grid-template-columns:minmax(0,1fr)}}
+.ux-step{display:grid;gap:6px;align-content:start;padding:18px;border-radius:var(--ux-r);background:var(--ux-s1);text-decoration:none;color:var(--ux-mu);font-size:14px;line-height:1.45;transition:background .2s,transform .2s}
+.ux-step:hover{background:var(--ux-s2);transform:translateY(-2px)}
+.ux-step .n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:600 13px var(--mo);color:var(--ux-tx);background:var(--ux-s2)}
+.ux-step b{font:600 17px var(--se);color:var(--ux-tx)}
+.ux-step.hl .n{background:var(--ux-blue);color:#fff}
+/* limpieza visual de las páginas del atlas */
+.w p{color:var(--ux-mu)}
+.box{background:var(--ux-s1);border:0;border-radius:var(--ux-r);padding:16px}
+.st{gap:8px;background:none;border:0}
+.st div{background:var(--ux-s1);border-radius:12px;padding:14px 16px}
+ul.hz li{background:var(--ux-s1);border:0;border-radius:12px;padding:12px 14px}
+.ms li{background:var(--ux-s1);border:0}
+.rt button{background:var(--ux-s1);border:1px solid transparent;border-radius:var(--ux-r);padding:14px}
+.rt button.on{background:rgba(59,123,255,.14);border-color:var(--ux-blue);color:var(--ux-tx)}
+.stage,.mvs{border:0;border-radius:18px}
+table.tb td,table.tb th{border-bottom-color:var(--ux-line)}
+h2{margin:1.4em 0 .5em}
+/* globo en la página de candidatos */
+.globe{border:0;border-radius:18px;background:#070c18}
+.glb-btns button{border-radius:999px;background:var(--ux-s1);border:0;padding:8px 14px}
+.glb-btns button:hover{background:var(--ux-s2)}
+.glb-info{border:0;background:rgba(10,16,32,.78);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+footer{padding-bottom:12px}

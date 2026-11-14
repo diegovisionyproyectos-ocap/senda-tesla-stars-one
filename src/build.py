@@ -77,10 +77,12 @@ rep("<h1>Arcadia Planitia</h1>",
     '<h1>Senda</h1><p class="slogan" id="bbSlogan"></p>')
 rep("◈ ARCADIA PLANITIA", "SENDA · ARCADIA PLANITIA")
 
-# 4. dos pestañas nuevas en la navegación
-rep('const PG=["mapa","ciencia",', 'const PG=["mapa","eva","consola","ciencia",')
-rep('nv:["Mapa","Ciencia",', 'nv:["Mapa","EVA 2 km","Consola","Ciencia",')
-rep('nv:["Map","Science",', 'nv:["Map","2 km EVA","Console","Science",')
+# 4. páginas nuevas: inicio, caminata y en vivo; la app abre en Inicio
+rep('const PG=["mapa","ciencia",', 'const PG=["inicio","mapa","eva","consola","ciencia",')
+rep('nv:["Mapa","Ciencia",', 'nv:["Inicio","Mapa","EVA 2 km","Consola","Ciencia",')
+rep('nv:["Map","Science",', 'nv:["Home","Map","2 km EVA","Console","Science",')
+rep('if(!PG.includes(h))h="mapa"', 'if(!PG.includes(h))h="inicio"')
+rep('<nav id="nv"></nav>', '<nav id="nv"></nav>' + (SRC / "ux" / "inicio.html").read_text(encoding="utf-8"))
 
 # 5. imágenes de Curiosity incrustadas
 for n in ("fhaz", "nav", "rmi"):
@@ -89,9 +91,11 @@ for n in ("fhaz", "nav", "rmi"):
 
 # 5b. Globo 3D de Marte en la página Candidatos (reemplaza el mapa plano)
 rep('<canvas id="gm" style="width:100%;display:block;border-radius:8px"></canvas>',
+    '<div data-globe-slot><div id="globeWrap">'
     '<div class="globe" id="globe"><div class="glb-lbl" id="glbLbl"></div><div class="glb-info" id="glbInfo"></div></div>'
     '<div class="glb-btns" id="glbBtns"></div>'
     '<p class="glb-src">Globo con el mosaico Viking MDIM2.1 (NASA/JPL/USGS, dominio público). Posiciones de los sitios en coordenadas reales.</p>'
+    '</div></div>'
     '<canvas id="gm" hidden style="width:100%;display:block;border-radius:8px"></canvas>')
 mars_b64 = base64.b64encode((SRC / "vendor" / "mars-viking-1920.jpg").read_bytes()).decode()
 globe_js = (SRC / "globe" / "globe.js").read_text(encoding="utf-8").replace("@@MARS_TEX@@", "data:image/jpeg;base64," + mars_b64)
@@ -135,7 +139,8 @@ h2{font:600 clamp(1.2rem,2.4vw,1.55rem)/1.2 var(--se);letter-spacing:-.01em}
 .glb-err{position:absolute;inset:auto 0 45% 0;text-align:center;color:#EEF1F7}
 """
 first_style_end = html.index("</style>")
-html = html[:first_style_end] + BRAND_CSS + senda_css + "\n" + html[first_style_end:]
+ux_css = (SRC / "ux" / "ux.css").read_text(encoding="utf-8")
+html = html[:first_style_end] + BRAND_CSS + senda_css + "\n" + ux_css + "\n" + html[first_style_end:]
 
 BRAND_RUN = """
 (function(){const T=window.TSO;if(!T)return;
@@ -146,7 +151,7 @@ const SL={es:'Del dato abierto a la <em>primera huella</em>: atlas y planificado
 const set=()=>{const l=document.documentElement.lang==='en'?'en':'es';document.getElementById('bbSlogan').innerHTML=SL[l]};
 set();new MutationObserver(set).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});})();
 """
-rep("</body>", "<script>\n" + brand_js + "\n</script>\n<script>" + BRAND_RUN + "</script>\n<script>\n" + senda_js + "\n</script>\n<script>\n" + globe_js + "\n</script>\n</body>")
+rep("</body>", "<script>\n" + brand_js + "\n</script>\n<script>" + BRAND_RUN + "</script>\n<script>\n" + senda_js + "\n</script>\n<script>\n" + globe_js + "\n</script>\n<script>\n" + (SRC / "ux" / "ux.js").read_text(encoding="utf-8") + "\n</script>\n</body>")
 
 out = DIST / "senda-tesla-stars-one.html"
 out.write_text(html, encoding="utf-8")
