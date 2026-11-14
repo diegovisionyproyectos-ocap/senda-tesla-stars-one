@@ -183,4 +183,6 @@ manual = (ROOT / "manual-tesla-stars-one.html").read_text(encoding="utf-8")
     + manual + "\n</html>\n", encoding="utf-8")
 for d in ("logo", "piezas"):
     shutil.copytree(ROOT / d, PUB / "marca" / d)
+if (ROOT / "demo").exists():
+    shutil.copytree(ROOT / "demo", PUB / "demo")
 print("OK", PUB)
