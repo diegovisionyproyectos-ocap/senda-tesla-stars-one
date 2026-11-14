@@ -54,6 +54,12 @@ public/                   Sitio publicado en Vercel (app + manual de marca)
 logo/ · piezas/           Identidad visual de TESLA STARS ONE
 ```
 
+## Use of AI (Super Intelligence) · Uso de IA
+
+We used **Claude (Anthropic)**, a large language model, as an assistant. It helped write and debug much of the code in `src/` (web app, data feeds, 3D views and build script), generate the Tesla Stars One logo and brand pieces as SVG code (`src/brand-svg.js`), write the demo deck in `demo/`, and draft the English texts. The team defined the concept, the mission scenario and the safety rules, and reviewed the results. No AI-generated images or audio are used: the photos come from NASA and the slide images are screenshots of the app. The app makes no AI calls at runtime, and no NASA logos or branding are used.
+
+Usamos **Claude (Anthropic)** como asistente para el código, la marca, la presentación y los textos en inglés. El concepto, el escenario de misión y las reglas de seguridad son del equipo.
+
 ## Equipo
 
 TESLA STARS ONE · Escuela Cristiana Nikola Tesla
