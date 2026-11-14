@@ -1,0 +1,424 @@
+<title>Tesla Stars One</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: manual de marca de noche orbital. Portada con cielo estrellado y el logo; luego secciones en columna con láminas de muestra a sangre. Tema oscuro único a propósito: la marca vive en el cielo nocturno; las láminas claras muestran la versión sobre fondo blanco. */
+:root{
+  color-scheme:dark;
+  --noche:#0A1020; --noche2:#111a2e; --linea:#24304a;
+  --polvo:#EEF1F7; --nebulosa:#8A93A8;
+  --bobina:#3B7BFF; --bobinaTx:#1F57D6; --chispa:#8FE3FF; --ocre:#E8894A;
+  --f-display:'Unbounded','Arial Black',system-ui,sans-serif;
+  --f-body:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--noche);color:var(--polvo);font-family:var(--f-body);font-size:15px;line-height:1.55}
+a{color:var(--chispa)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+.mono{font-family:var(--f-mono)}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--chispa)}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:clamp(24px,3.4vw,34px);font-weight:700}
+h3{font-size:15px;font-weight:500;letter-spacing:.02em}
+p{margin:0;max-width:64ch}
+.muted{color:var(--nebulosa)}
+/* portada */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--linea)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero .in{position:relative;max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:56px 48px;display:grid;gap:28px}
+.hero .logo{width:min(640px,100%)}
+.hero .logo svg{width:100%;height:auto;display:block}
+.hero .tag{font-family:var(--f-display);font-size:clamp(22px,3vw,30px);font-weight:500}
+.hero .tag em{font-style:normal;color:var(--ocre)}
+.hero .meta{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--f-mono);font-size:12px;padding:4px 10px;border:1px solid var(--linea);border-radius:3px;color:var(--nebulosa);background:rgba(10,16,32,.6)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--f-mono);font-size:12.5px;padding-block:16px;border-bottom:1px solid var(--linea)}
+nav.toc a{color:var(--nebulosa);text-decoration:none}
+nav.toc a:hover{color:var(--polvo)}
+section.s{display:grid;gap:22px;padding-block:56px 8px}
+.shead{display:grid;gap:10px}
+/* concepto */
+.concept{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:32px;align-items:center}
+@media (max-width:760px){.concept{grid-template-columns:minmax(0,1fr)}}
+.anat{position:relative;background:var(--noche2);border:1px solid var(--linea);border-radius:8px;padding:24px}
+.anat svg{width:100%;height:auto;display:block}
+.parts{display:grid;gap:14px;list-style:none;margin:0;padding:0}
+.parts li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
+.parts .k{font-family:var(--f-mono);font-size:12px;color:var(--noche);background:var(--chispa);border-radius:50%;width:24px;height:24px;display:grid;place-items:center;font-weight:500}
+.parts b{font-family:var(--f-display);font-weight:500;font-size:14px;display:block;margin-bottom:2px}
+/* láminas */
+.plates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.plates.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:860px){.plates.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.plates,.plates.three{grid-template-columns:minmax(0,1fr)}}
+.plate{border-radius:8px;overflow:hidden;border:1px solid var(--linea);display:grid;grid-template-rows:1fr auto;min-width:0}
+.plate .art{display:grid;place-items:center;padding:clamp(20px,4vw,40px);min-height:200px}
+.plate .art svg{width:100%;max-width:420px;height:auto;display:block}
+.plate .art.sq svg{max-width:150px}
+.plate .cap{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;background:var(--noche2);font-size:12.5px;flex-wrap:wrap}
+.plate .cap span{color:var(--nebulosa)}
+.bg-noche{background:var(--noche)}.bg-polvo{background:var(--polvo)}.bg-bobina{background:var(--bobina)}.bg-ocre{background:var(--ocre)}.bg-white{background:#fff}
+.copy{font:500 12px var(--f-mono);color:var(--polvo);background:transparent;border:1px solid var(--linea);border-radius:4px;padding:5px 10px;cursor:pointer}
+.copy:hover{border-color:var(--chispa);color:var(--chispa)}
+.copy:focus-visible{outline:2px solid var(--chispa);outline-offset:2px}
+/* reglas */
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.rules{grid-template-columns:minmax(0,1fr)}}
+.rule{background:var(--noche2);border:1px solid var(--linea);border-radius:8px;padding:20px;display:grid;gap:12px;align-content:start}
+.rule svg{width:100%;height:auto;display:block}
+.donts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.donts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.dont{background:var(--noche2);border:1px solid var(--linea);border-radius:8px;overflow:hidden;display:grid}
+.dont .art{height:120px;display:grid;place-items:center;padding:14px;position:relative}
+.dont .art svg{width:100%;max-width:200px;height:auto}
+.dont .art::after{content:"";position:absolute;inset:10px;background:linear-gradient(to top right,transparent calc(50% - 1px),rgba(236,106,85,.85) 50%,transparent calc(50% + 1px))}
+.dont p{font-size:12.5px;padding:10px 12px;color:var(--nebulosa)}
+/* color */
+.swatches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.swatches{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:440px){.swatches{grid-template-columns:minmax(0,1fr)}}
+.sw{border-radius:8px;overflow:hidden;border:1px solid var(--linea);display:grid;grid-template-rows:120px auto}
+.sw .chip2{display:flex;align-items:flex-end;justify-content:space-between;padding:12px;font-family:var(--f-mono);font-size:12px}
+.sw .info{background:var(--noche2);padding:12px 14px;display:grid;gap:3px;font-size:12.5px}
+.sw .info b{font-family:var(--f-display);font-weight:500;font-size:14px}
+.sw .info .mono{color:var(--nebulosa);font-size:11.5px}
+.ratio{display:flex;height:44px;border-radius:6px;overflow:hidden;border:1px solid var(--linea);font-family:var(--f-mono);font-size:12px}
+.ratio div{display:flex;align-items:center;padding-inline:12px}
+.tablebox{overflow-x:auto}
+table.ct{border-collapse:collapse;width:100%;font-size:13px}
+table.ct th,table.ct td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--linea);white-space:nowrap}
+table.ct th{color:var(--nebulosa);font-weight:500;font-size:12px}
+.ok{color:#7cc48a}.lim{color:#e7b94c}.no{color:#ec6a55}
+/* tipografía */
+.type{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.type{grid-template-columns:minmax(0,1fr)}}
+.face{background:var(--noche2);border:1px solid var(--linea);border-radius:8px;padding:22px;display:grid;gap:12px;align-content:start;min-width:0}
+.face .big{font-size:clamp(44px,7vw,72px);line-height:1;overflow-wrap:anywhere}
+.scale{display:grid;gap:10px}
+.scale div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:14px;align-items:baseline;border-bottom:1px solid var(--linea);padding-bottom:10px}
+.scale .lbl{font-family:var(--f-mono);font-size:11.5px;color:var(--nebulosa)}
+/* voz */
+.voice{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.voice{grid-template-columns:minmax(0,1fr)}}
+.say{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+@media (max-width:640px){.say{grid-template-columns:minmax(0,1fr)}}
+.say ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14px}
+/* aplicaciones */
+.apps{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:14px;align-items:start}
+@media (max-width:860px){.apps{grid-template-columns:minmax(0,1fr)}}
+.apps .col{display:grid;gap:14px;min-width:0}
+.mock{border:1px solid var(--linea);border-radius:8px;overflow:hidden;background:var(--noche2);display:grid;min-width:0}
+.mock .art{padding:16px;display:grid;place-items:center;background:#060a14}
+.mock .art svg{width:100%;height:auto;display:block;border-radius:4px}
+.mock .art.ig svg{max-width:360px}
+.mock .art.bd svg{max-width:240px}
+.mock .art.av svg{max-width:150px;border-radius:50%}
+.files{font-family:var(--f-mono);font-size:12.5px;background:var(--noche2);border:1px solid var(--linea);border-radius:8px;padding:16px;overflow-x:auto;white-space:pre;line-height:1.7}
+.toast{font-family:var(--f-mono);font-size:12px;color:var(--chispa)}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--linea);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
+footer svg{width:220px;height:auto}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="hero">
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <div class="in">
+    <span class="eyebrow">Manual de identidad · versión 1.0 · noviembre 2026</span>
+    <div class="logo" id="heroLogo"></div>
+    <p class="tag">Del dato abierto a la <em>primera huella</em>.</p>
+    <div class="meta">
+      <span class="chip">Equipo para NASA Space Apps Challenge 2026</span>
+      <span class="chip">Proyecto: Senda</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Secciones">
+    <a href="#simbolo">Símbolo</a><a href="#logo">Logo</a><a href="#reglas">Reglas</a><a href="#color">Color</a><a href="#tipografia">Tipografía</a><a href="#voz">Voz</a><a href="#piezas">Piezas</a><a href="#archivos">Archivos</a>
+  </nav>
+
+  <section class="s" id="simbolo">
+    <div class="shead"><span class="eyebrow">El símbolo</span><h2>Una T, un rayo, una órbita y una estrella</h2>
+      <p class="muted">El símbolo se lee en una sola mirada y cuenta quiénes somos. Funciona en un solo color antes que en tres.</p></div>
+    <div class="concept">
+      <div class="anat" id="anat"></div>
+      <ol class="parts">
+        <li><span class="k">1</span><div><b>La T</b>La inicial del equipo y un saludo a Nikola Tesla, que imaginó la comunicación entre planetas.</div></li>
+        <li><span class="k">2</span><div><b>El tronco de rayo</b>Energía e ingenio: el impulso que convierte una idea en un prototipo que funciona.</div></li>
+        <li><span class="k">3</span><div><b>La órbita</b>Exploración. Cruza la T por detrás, como una trayectoria alrededor de un planeta.</div></li>
+        <li><span class="k">4</span><div><b>Una sola estrella</b>El ONE del nombre: un equipo, una misión. Va en ocre Marte, el destino del proyecto.</div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="s" id="logo">
+    <div class="shead"><span class="eyebrow">Versiones del logo</span><h2>Elige la versión según el espacio</h2>
+      <p class="muted">La horizontal es la principal. La vertical sirve para formatos cuadrados y altos. El símbolo solo va donde el nombre ya se lee cerca o el espacio es mínimo.</p></div>
+    <div class="plates" id="platesMain"></div>
+    <div class="plates three" id="platesAlt"></div>
+  </section>
+
+  <section class="s" id="reglas">
+    <div class="shead"><span class="eyebrow">Reglas de uso</span><h2>Espacio, tamaño y lo que no se hace</h2></div>
+    <div class="rules">
+      <div class="rule"><h3>Área de respeto</h3><div id="clear"></div><p class="muted">Deja alrededor del logo un margen igual a la altura de la barra de la T (la unidad <span class="mono">x</span>). Ningún texto ni borde entra en esa zona.</p></div>
+      <div class="rule"><h3>Tamaño mínimo</h3><div id="minsize"></div><p class="muted">Pantalla: logo horizontal desde 140 px de ancho, símbolo desde 24 px. Impreso: horizontal desde 35 mm, símbolo desde 8 mm.</p></div>
+    </div>
+    <div class="donts" id="donts"></div>
+  </section>
+
+  <section class="s" id="color">
+    <div class="shead"><span class="eyebrow">Color</span><h2>Noche orbital, azul bobina y un toque de Marte</h2>
+      <p class="muted">La marca vive sobre fondos oscuros. El azul da energía; el ocre se reserva para lo que debe llamar la atención, como la estrella y una palabra clave.</p></div>
+    <div class="swatches" id="swatches"></div>
+    <div class="ratio" aria-label="Proporción de uso 60, 30 y 10 por ciento">
+      <div style="flex:60;background:var(--noche);color:var(--polvo)">60 % Noche orbital</div>
+      <div style="flex:30;background:var(--bobina);color:#fff">30 % Azul bobina</div>
+      <div style="flex:10;background:var(--ocre);color:var(--noche)">10 %</div>
+    </div>
+    <div class="tablebox"><table class="ct" id="contrast"></table></div>
+  </section>
+
+  <section class="s" id="tipografia">
+    <div class="shead"><span class="eyebrow">Tipografía</span><h2>Dos familias, ambas gratuitas en Google Fonts</h2></div>
+    <div class="type">
+      <div class="face"><span class="eyebrow">Títulos · Unbounded</span><div class="big" style="font-family:var(--f-display);font-weight:700">Aa Marte</div><p class="muted">Ancha, geométrica y firme. Para títulos, el nombre del equipo y cifras grandes. Pesos 500 y 700. Nunca en párrafos.</p></div>
+      <div class="face"><span class="eyebrow">Texto y datos · IBM Plex Sans y Plex Mono</span><div class="big" style="font-family:var(--f-body);font-weight:500">Aa 3 472 m</div><p class="muted">Clara y técnica. Plex Sans para el texto, Plex Mono para datos, coordenadas y etiquetas. Es la misma familia de la consola Senda.</p></div>
+    </div>
+    <div class="scale">
+      <div><span class="lbl">Título 1 · 48/52</span><span style="font-family:var(--f-display);font-weight:700;font-size:clamp(28px,5vw,48px);line-height:1.08">Rumbo a Marte</span></div>
+      <div><span class="lbl">Título 2 · 28/34</span><span style="font-family:var(--f-display);font-weight:500;font-size:28px;line-height:1.2">Consola Senda</span></div>
+      <div><span class="lbl">Texto · 16/26</span><span style="font-size:16px">Planeamos caminatas seguras con datos abiertos de NASA.</span></div>
+      <div><span class="lbl">Dato · Mono 13</span><span class="mono" style="font-size:13px;color:var(--chispa)">SOL 5073 · 4,8260° S · 137,3889° E</span></div>
+      <div><span class="lbl">Etiqueta · Mono 12</span><span class="eyebrow">NASA SPACE APPS CHALLENGE 2026</span></div>
+    </div>
+  </section>
+
+  <section class="s" id="voz">
+    <div class="shead"><span class="eyebrow">Voz</span><h2>Hablamos como una tripulación</h2></div>
+    <div class="voice">
+      <div class="face"><h3>Precisos</h3><p class="muted">Damos el dato con su fuente y su unidad. Si algo es un modelo, lo decimos.</p></div>
+      <div class="face"><h3>Valientes</h3><p class="muted">Contamos el reto con entusiasmo, sin exagerar lo que logramos.</p></div>
+      <div class="face"><h3>Claros</h3><p class="muted">Frases cortas. Un jurado o un compañero de primaria debe entendernos.</p></div>
+    </div>
+    <div class="say">
+      <div class="face"><h3 class="ok">Así sí</h3><ul><li>Senda calcula una ruta segura en segundos.</li><li>Usamos la posición real de Curiosity del sol 5073.</li><li>El terreno es un modelo; en misión se carga el DTM de HiRISE.</li></ul></div>
+      <div class="face"><h3 class="no">Así no</h3><ul><li>La herramienta definitiva para conquistar Marte.</li><li>Datos 100 % en tiempo real (cuando son una instantánea).</li><li>Somos parte de la NASA.</li></ul></div>
+    </div>
+  </section>
+
+  <section class="s" id="piezas">
+    <div class="shead"><span class="eyebrow">Piezas listas</span><h2>Redes, presentación y credencial</h2>
+      <p class="muted">Cada pieza tiene su archivo SVG en la carpeta del equipo. El texto de la credencial es un ejemplo: cambia «Nombre Apellido» y el rol de cada integrante.</p></div>
+    <div class="apps">
+      <div class="col">
+        <div class="mock"><div class="art" id="appCover"></div><div class="plate"><div class="cap"><b>Portada de presentación · 1920 × 1080</b><button class="copy" type="button" data-k="cover">Copiar SVG</button></div></div></div>
+        <div class="mock"><div class="art" id="appSenda" style="background:var(--noche);padding:28px"></div><div class="plate"><div class="cap"><b>Firma del proyecto en la consola Senda</b><button class="copy" type="button" data-k="senda">Copiar SVG</button></div></div></div>
+        <div class="plates">
+          <div class="mock"><div class="art av" id="appAvatar"></div><div class="plate"><div class="cap"><b>Avatar · 400 × 400</b><button class="copy" type="button" data-k="avatar">Copiar SVG</button></div></div></div>
+          <div class="mock"><div class="art bd" id="appBadge"></div><div class="plate"><div class="cap"><b>Credencial · 600 × 900</b><button class="copy" type="button" data-k="badge">Copiar SVG</button></div></div></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="mock"><div class="art ig" id="appIg"></div><div class="plate"><div class="cap"><b>Post de Instagram · 1080 × 1350</b><button class="copy" type="button" data-k="instagram">Copiar SVG</button></div></div></div>
+        <div class="face"><h3>Texto sugerido para el post</h3><p id="igCopy" style="font-size:14px">Somos TESLA STARS ONE y estamos en el NASA Space Apps Challenge 2026. Nuestro reto: ayudar a los primeros astronautas en Marte a planear caminatas seguras. Construimos Senda, una consola que combina la posición real de Curiosity, el clima de Gale y el clima espacial en un solo mapa. Del dato abierto a la primera huella.</p><button class="copy" type="button" id="copyIg">Copiar texto</button></div>
+      </div>
+    </div>
+    <span class="toast" id="toast" role="status"></span>
+  </section>
+
+  <section class="s" id="archivos">
+    <div class="shead"><span class="eyebrow">Archivos</span><h2>Carpeta del equipo</h2>
+      <p class="muted">Todos los logos están en SVG, que se ve nítido a cualquier tamaño y se abre en Canva, Figma, Illustrator o el navegador. Instala Unbounded e IBM Plex Sans en tu computadora para que el texto de los SVG se vea con la tipografía correcta.</p></div>
+    <div class="files">tesla-stars-one/
+├─ logo/
+│  ├─ horizontal-oscuro.svg   horizontal-claro.svg
+│  ├─ horizontal-blanco.svg   horizontal-negro.svg
+│  ├─ vertical-oscuro.svg     vertical-claro.svg
+│  ├─ wordmark-oscuro.svg     wordmark-claro.svg
+│  └─ simbolo-color-oscuro.svg · simbolo-color-claro.svg · simbolo-blanco.svg · simbolo-negro.svg
+├─ piezas/
+│  ├─ instagram-1080x1350.svg   portada-1920x1080.svg
+│  └─ avatar-400.svg   credencial-600x900.svg   senda-lockup.svg
+└─ src/brand-svg.js   (genera todos los archivos)</div>
+  </section>
+
+  <footer><div id="footLogo"></div><span class="muted mono" style="font-size:12px">Tesla Stars One · manual de identidad 1.0</span></footer>
+</div>
+
+<script>
+/* TESLA STARS ONE — generadores SVG de la identidad. Una sola fuente para la guía web y los archivos exportados. */
+(function (root) {
+  const C = {
+    noche: '#0A1020', bobina: '#3B7BFF', bobinaTx: '#1F57D6', chispa: '#8FE3FF',
+    ocre: '#E8894A', polvo: '#EEF1F7', nebulosa: '#8A93A8', marte: '#7A3A1E'
+  };
+  const FONT = "'Unbounded','Arial Black',system-ui,sans-serif";
+  const BODY = "'IBM Plex Sans','Segoe UI',system-ui,sans-serif";
+  const MONO = "'IBM Plex Mono',Consolas,monospace";
+  // T con tronco de rayo y estrella de cuatro puntas sobre la órbita
+  const T = 'M30 28H90V40H66L63 59H72L54 96L57.5 71H48L52.5 40H30Z';
+  const STAR = 'M107 29C108 38 110 40 119 41C110 42 108 44 107 53C106 44 104 42 95 41C104 40 106 38 107 29Z';
+  const smallStar = (x, y, r) => `M${x} ${y - r}C${x + r * .1} ${y - r * .2} ${x + r * .2} ${y - r * .1} ${x + r} ${y}C${x + r * .2} ${y + r * .1} ${x + r * .1} ${y + r * .2} ${x} ${y + r}C${x - r * .1} ${y + r * .2} ${x - r * .2} ${y + r * .1} ${x - r} ${y}C${x - r * .2} ${y - r * .1} ${x - r * .1} ${y - r * .2} ${x} ${y - r}Z`;
+  let uid = 0;
+  const SCHEMES = {
+    dark: { orbit: C.bobina, mark: C.polvo, star: C.ocre, text: C.polvo, sub: C.ocre, line: C.bobina },
+    light: { orbit: C.bobina, mark: C.noche, star: C.ocre, text: C.noche, sub: C.bobinaTx, line: C.bobina },
+    monoLight: { orbit: '#FFFFFF', mark: '#FFFFFF', star: '#FFFFFF', text: '#FFFFFF', sub: '#FFFFFF', line: '#FFFFFF' },
+    monoDark: { orbit: C.noche, mark: C.noche, star: C.noche, text: C.noche, sub: C.noche, line: C.noche },
+    ocre: { orbit: C.noche, mark: C.noche, star: C.polvo, text: C.noche, sub: C.noche, line: C.noche }
+  };
+  function iconG(o) {
+    const id = 'tso' + (++uid);
+    return `<defs><mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120"><rect width="120" height="120" fill="#fff"/><path d="${T}" fill="#000" stroke="#000" stroke-width="8" stroke-linejoin="round"/><path d="${STAR}" fill="#000" stroke="#000" stroke-width="6"/></mask></defs>` +
+      `<g mask="url(#${id})"><ellipse cx="60" cy="60" rx="52" ry="19" transform="rotate(-22 60 60)" fill="none" stroke="${o.orbit}" stroke-width="5"/></g>` +
+      `<path d="${T}" fill="${o.mark}" stroke="${o.mark}" stroke-width="1.5" stroke-linejoin="round"/><path d="${STAR}" fill="${o.star}"/>`;
+  }
+  const wrap = (vb, inner, label, w, h) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}"${w ? ` width="${w}" height="${h}"` : ''} role="img" aria-label="${label}">${inner}</svg>`;
+  const S = k => SCHEMES[k] || k;
+
+  function icon(k, size) { return wrap('0 0 120 120', iconG(S(k)), 'Símbolo de Tesla Stars One', size, size); }
+  function horizontal(k) {
+    const o = S(k);
+    return wrap('0 0 560 120', `<g>${iconG(o)}</g>` +
+      `<text x="140" y="68" font-family="${FONT}" font-weight="700" font-size="42" textLength="400" lengthAdjust="spacingAndGlyphs" fill="${o.text}">TESLA STARS</text>` +
+      `<text x="141" y="104" font-family="${FONT}" font-weight="500" font-size="20" letter-spacing="12" fill="${o.sub}">ONE</text>` +
+      `<path d="M252 97H520" stroke="${o.line}" stroke-width="2"/><path d="${smallStar(536, 97, 9)}" fill="${o.star}"/>`, 'Tesla Stars One');
+  }
+  function vertical(k) {
+    const o = S(k);
+    return wrap('0 0 420 320', `<g transform="translate(132 0) scale(1.3)">${iconG(o)}</g>` +
+      `<text x="210" y="228" text-anchor="middle" font-family="${FONT}" font-weight="700" font-size="42" textLength="390" lengthAdjust="spacingAndGlyphs" fill="${o.text}">TESLA STARS</text>` +
+      `<path d="M40 268H160M260 268H380" stroke="${o.line}" stroke-width="2"/>` +
+      `<text x="216" y="276" text-anchor="middle" font-family="${FONT}" font-weight="500" font-size="22" letter-spacing="12" fill="${o.sub}">ONE</text>`, 'Tesla Stars One');
+  }
+  function wordmark(k) {
+    const o = S(k);
+    return wrap('0 0 420 100', `<text x="0" y="48" font-family="${FONT}" font-weight="700" font-size="42" textLength="410" lengthAdjust="spacingAndGlyphs" fill="${o.text}">TESLA STARS</text>` +
+      `<text x="1" y="88" font-family="${FONT}" font-weight="500" font-size="20" letter-spacing="12" fill="${o.sub}">ONE</text><path d="M112 81H390" stroke="${o.line}" stroke-width="2"/><path d="${smallStar(405, 81, 9)}" fill="${o.star}"/>`, 'Tesla Stars One');
+  }
+  // campo de estrellas determinista
+  function stars(w, h, n, seed) {
+    let s = seed || 7, out = '';
+    const r = () => (s = (s * 16807) % 2147483647) / 2147483647;
+    for (let i = 0; i < n; i++) { const x = r() * w, y = r() * h, z = r(); out += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(0.6 + z * 1.8).toFixed(2)}" fill="${z > .93 ? C.chispa : C.polvo}" opacity="${(0.25 + z * .6).toFixed(2)}"/>`; }
+    return out;
+  }
+  function marsDisc(cx, cy, r, id) {
+    return `<defs><radialGradient id="${id}" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#F0A46A"/><stop offset=".55" stop-color="${C.ocre}"/><stop offset="1" stop-color="${C.marte}"/></radialGradient></defs><circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#${id})"/>`;
+  }
+  function avatar() {
+    return wrap('0 0 400 400', `<circle cx="200" cy="200" r="200" fill="${C.noche}"/>${stars(400, 400, 26, 3)}<g transform="translate(56 56) scale(2.4)">${iconG(SCHEMES.dark)}</g>`, 'Avatar de Tesla Stars One', 400, 400);
+  }
+  function instagram() {
+    const id = 'mi' + (++uid);
+    return wrap('0 0 1080 1350', `<rect width="1080" height="1350" fill="${C.noche}"/>${stars(1080, 1350, 150, 11)}${marsDisc(930, 1290, 430, id)}` +
+      `<ellipse cx="930" cy="1290" rx="560" ry="150" transform="rotate(-18 930 1290)" fill="none" stroke="${C.bobina}" stroke-width="4" opacity=".9"/>` +
+      `<g transform="translate(80 80) scale(1.25)">${iconG(SCHEMES.dark)}</g>` +
+      `<text x="80" y="420" font-family="${MONO}" font-size="26" letter-spacing="4" fill="${C.chispa}">NASA SPACE APPS CHALLENGE 2026</text>` +
+      `<text font-family="${FONT}" font-weight="700" font-size="72" fill="${C.polvo}"><tspan x="80" y="530">Rumbo a Marte</tspan><tspan x="80" y="625">con datos</tspan><tspan x="80" y="720" fill="${C.ocre}">abiertos</tspan></text>` +
+      `<text font-family="${BODY}" font-size="34" fill="${C.polvo}" opacity=".85"><tspan x="80" y="820">Proyecto Senda: una consola de</tspan><tspan x="80" y="866">inteligencia para planear caminatas</tspan><tspan x="80" y="912">seguras en la superficie marciana.</tspan></text>` +
+      `<g transform="translate(80 1190) scale(.82)">${horizontal('dark').replace(/^<svg[^>]*>|<\/svg>$/g, '')}</g>`, 'Post de Instagram: Rumbo a Marte con datos abiertos', 1080, 1350);
+  }
+  function cover() {
+    const id = 'mc' + (++uid);
+    return wrap('0 0 1920 1080', `<rect width="1920" height="1080" fill="${C.noche}"/>${stars(1920, 1080, 220, 5)}${marsDisc(1460, 540, 300, id)}` +
+      `<ellipse cx="1460" cy="540" rx="430" ry="120" transform="rotate(-22 1460 540)" fill="none" stroke="${C.bobina}" stroke-width="5"/>` +
+      `<path d="${smallStar(1858, 380, 26)}" fill="${C.polvo}"/>` +
+      `<text x="120" y="250" font-family="${MONO}" font-size="28" letter-spacing="4" fill="${C.chispa}">NASA SPACE APPS CHALLENGE 2026</text>` +
+      `<text x="114" y="470" font-family="${FONT}" font-weight="700" font-size="190" fill="${C.polvo}">Senda</text>` +
+      `<text font-family="${BODY}" font-size="46" fill="${C.polvo}" opacity=".88"><tspan x="120" y="570">Consola de inteligencia de superficie</tspan><tspan x="120" y="630">para caminatas tripuladas en Marte</tspan></text>` +
+      `<path d="M120 700H260" stroke="${C.ocre}" stroke-width="6"/>` +
+      `<g transform="translate(120 880) scale(1.05)">${horizontal('dark').replace(/^<svg[^>]*>|<\/svg>$/g, '')}</g>`, 'Portada de presentación del proyecto Senda', 1920, 1080);
+  }
+  function badge() {
+    return wrap('0 0 600 900', `<rect x="4" y="4" width="592" height="892" rx="36" fill="${C.polvo}" stroke="#D5DAE4" stroke-width="2"/>` +
+      `<path d="M4 40A36 36 0 0 1 40 4H560A36 36 0 0 1 596 40V360H4Z" fill="${C.noche}"/>${stars(600, 360, 40, 9).replace(/<circle/g, '<circle clip-path="none"')}` +
+      `<rect x="250" y="34" width="100" height="18" rx="9" fill="${C.polvo}" opacity=".9"/>` +
+      `<g transform="translate(225 96) scale(1.25)">${iconG(SCHEMES.dark)}</g>` +
+      `<text x="300" y="320" text-anchor="middle" font-family="${FONT}" font-weight="700" font-size="30" letter-spacing="3" fill="${C.polvo}">TESLA STARS ONE</text>` +
+      `<rect x="4" y="360" width="16" height="536" fill="${C.bobina}"/>` +
+      `<text x="64" y="470" font-family="${FONT}" font-weight="700" font-size="44" fill="${C.noche}">Nombre</text><text x="64" y="530" font-family="${FONT}" font-weight="700" font-size="44" fill="${C.noche}">Apellido</text>` +
+      `<text x="64" y="596" font-family="${BODY}" font-weight="600" font-size="30" fill="${C.bobinaTx}">Líder de equipo</text>` +
+      `<path d="M64 650H536" stroke="#D5DAE4" stroke-width="2"/>` +
+      `<text x="64" y="706" font-family="${MONO}" font-size="22" letter-spacing="2" fill="#5A6478">PROYECTO</text><text x="64" y="746" font-family="${BODY}" font-weight="600" font-size="30" fill="${C.noche}">Senda · Marte</text>` +
+      `<text x="64" y="830" font-family="${MONO}" font-size="20" letter-spacing="2" fill="#5A6478">NASA SPACE APPS CHALLENGE 2026</text>` +
+      `<path d="${smallStar(530, 822, 14)}" fill="${C.ocre}"/>`, 'Credencial del equipo', 600, 900);
+  }
+  function senda(k) {
+    const o = S(k);
+    return wrap('0 0 640 120', `<text x="0" y="82" font-family="${FONT}" font-weight="700" font-size="76" fill="${o.text}">Senda</text>` +
+      `<path d="M300 22V98" stroke="${o.line}" stroke-width="2"/>` +
+      `<text x="330" y="42" font-family="${MONO}" font-size="15" letter-spacing="3" fill="${o.sub}">UN PROYECTO DE</text>` +
+      `<g transform="translate(330 52) scale(.5)">${iconG(o)}</g>` +
+      `<text x="400" y="96" font-family="${FONT}" font-weight="700" font-size="22" textLength="230" lengthAdjust="spacingAndGlyphs" fill="${o.text}">TESLA STARS ONE</text>`, 'Senda, un proyecto de Tesla Stars One');
+  }
+  const api = { C, SCHEMES, icon, horizontal, vertical, wordmark, avatar, instagram, cover, badge, senda };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.TSO = api;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+(function(){
+"use strict";
+const T=window.TSO,C=T.C,$=id=>document.getElementById(id);
+const strip=s=>s.replace(/^<svg[^>]*>|<\/svg>$/g,'');
+$('heroLogo').innerHTML=T.horizontal('dark');
+$('footLogo').innerHTML=T.horizontal('dark');
+// anatomía
+$('anat').innerHTML=`<svg viewBox="-20 -10 170 140" role="img" aria-label="Anatomía del símbolo"><g>${strip(T.icon('dark'))}</g>
+ <g font-family="IBM Plex Mono,monospace" font-size="7" fill="${C.noche}">
+ ${[[18,34,'1'],[44,86,'2'],[10,80,'3'],[112,20,'4']].map(([x,y,n])=>`<circle cx="${x}" cy="${y}" r="6" fill="${C.chispa}"/><text x="${x}" y="${y+2.5}" text-anchor="middle">${n}</text>`).join('')}</g>
+ <path d="M24 34H30M50 86L56 82M16 80L24 72M112 26L110 33" stroke="${C.chispa}" stroke-width=".8"/></svg>`;
+// láminas
+const plate=(bg,svg,name,key,sq)=>`<div class="plate"><div class="art ${bg}${sq?' sq':''}">${svg}</div><div class="cap"><b>${name}</b><button class="copy" type="button" data-k="${key}">Copiar SVG</button></div></div>`;
+const LIB={'h-dark':T.horizontal('dark'),'h-light':T.horizontal('light'),'v-dark':T.vertical('dark'),'h-white':T.horizontal('monoLight'),'h-black':T.horizontal('monoDark'),'h-ocre':T.horizontal('ocre'),'i-dark':T.icon('dark',512),'i-light':T.icon('light',512),'i-white':T.icon('monoLight',512),'w-dark':T.wordmark('dark'),
+  cover:T.cover(),instagram:T.instagram(),avatar:T.avatar(),badge:T.badge(),senda:T.senda('dark')};
+$('platesMain').innerHTML=plate('bg-noche',LIB['h-dark'],'Principal · sobre oscuro','h-dark')+plate('bg-white',LIB['h-light'],'Principal · sobre claro','h-light')+
+  plate('bg-noche',LIB['v-dark'],'Vertical · sobre oscuro','v-dark')+plate('bg-noche',LIB['w-dark'],'Solo nombre · sobre oscuro','w-dark');
+$('platesAlt').innerHTML=plate('bg-bobina',LIB['h-white'],'Una tinta · blanco','h-white')+plate('bg-polvo',LIB['h-black'],'Una tinta · noche','h-black')+plate('bg-ocre',LIB['h-ocre'],'Sobre ocre Marte','h-ocre')+
+  plate('bg-noche',LIB['i-dark'],'Símbolo · oscuro','i-dark',1)+plate('bg-white',LIB['i-light'],'Símbolo · claro','i-light',1)+plate('bg-bobina',LIB['i-white'],'Símbolo · una tinta','i-white',1);
+// área de respeto
+$('clear').innerHTML=`<svg viewBox="-60 -60 680 240" role="img" aria-label="Área de respeto del logo"><rect x="-48" y="-48" width="656" height="216" fill="none" stroke="${C.chispa}" stroke-dasharray="6 5" stroke-width="1.5"/><rect x="-48" y="-48" width="656" height="216" fill="${C.chispa}" opacity=".06"/>${strip(T.horizontal('dark'))}
+  <g fill="${C.ocre}" font-family="IBM Plex Mono,monospace" font-size="18"><rect x="-48" y="40" width="48" height="12" opacity=".7"/><text x="-40" y="34">x</text><rect x="560" y="40" width="48" height="12" opacity=".7"/><text x="578" y="34">x</text><rect x="270" y="-48" width="12" height="48" opacity=".7"/><text x="288" y="-20">x</text></g></svg>`;
+$('minsize').innerHTML=`<svg viewBox="0 0 560 150" role="img" aria-label="Tamaños mínimos"><g transform="translate(0 20) scale(.5)">${strip(T.horizontal('dark'))}</g><g transform="translate(330 20) scale(.5)">${strip(T.icon('dark'))}</g>
+  <g font-family="IBM Plex Mono,monospace" font-size="16" fill="${C.nebulosa}"><text x="0" y="120">140 px · 35 mm</text><text x="330" y="120">24 px · 8 mm</text></g>
+  <path d="M0 95H280M330 95H390" stroke="${C.ocre}" stroke-width="2"/></svg>`;
+// usos incorrectos
+const h=strip(T.horizontal('dark'));
+const D=[[`<svg viewBox="0 0 560 120" preserveAspectRatio="none" style="height:46px">${h}</svg>`,'No lo estires ni lo comprimas.'],
+ [`<svg viewBox="0 0 560 120">${strip(T.horizontal({orbit:'#22c55e',mark:'#f472b6',star:'#facc15',text:'#f472b6',sub:'#22c55e',line:'#22c55e'}))}</svg>`,'No cambies los colores.'],
+ [`<svg viewBox="0 0 560 120" style="filter:drop-shadow(4px 6px 2px #000) blur(.6px)">${h}</svg>`,'No agregues sombras ni efectos.'],
+ [`<svg viewBox="0 0 560 120" style="transform:rotate(-14deg)">${h}</svg>`,'No lo rotes.']];
+$('donts').innerHTML=D.map(d=>`<div class="dont"><div class="art">${d[0]}</div><p>${d[1]}</p></div>`).join('');
+// color
+const SW=[['Noche orbital','#0A1020','10 · 16 · 32','Fondo principal y texto sobre claro',C.polvo],['Azul bobina','#3B7BFF','59 · 123 · 255','Órbita, botones, gráficos y títulos grandes','#fff'],['Ocre Marte','#E8894A','232 · 137 · 74','La estrella y una palabra clave por pieza',C.noche],
+ ['Chispa','#8FE3FF','143 · 227 · 255','Etiquetas y datos sobre fondo oscuro',C.noche],['Polvo estelar','#EEF1F7','238 · 241 · 247','Texto sobre oscuro y fondos claros',C.noche],['Azul texto','#1F57D6','31 · 87 · 214','Texto azul sobre fondo blanco','#fff']];
+$('swatches').innerHTML=SW.map(s=>`<div class="sw"><div class="chip2" style="background:${s[1]};color:${s[4]}"><span>${s[1]}</span><span>RGB ${s[2]}</span></div><div class="info"><b>${s[0]}</b><span class="muted">${s[3]}</span></div></div>`).join('');
+const lum=hx=>{const c=[1,3,5].map(i=>parseInt(hx.substr(i,2),16)/255).map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4));return .2126*c[0]+.7152*c[1]+.0722*c[2]};
+const cr=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
+const pairs=[['Polvo estelar','#EEF1F7','Noche orbital','#0A1020'],['Azul bobina','#3B7BFF','Noche orbital','#0A1020'],['Ocre Marte','#E8894A','Noche orbital','#0A1020'],['Chispa','#8FE3FF','Noche orbital','#0A1020'],['Noche orbital','#0A1020','Blanco','#FFFFFF'],['Azul texto','#1F57D6','Blanco','#FFFFFF'],['Azul bobina','#3B7BFF','Blanco','#FFFFFF']];
+$('contrast').innerHTML='<tr><th>Texto</th><th>Fondo</th><th>Contraste</th><th>Uso permitido</th></tr>'+pairs.map(p=>{const r=cr(p[1],p[3]);const u=r>=7?['ok','Todo texto (AAA)']:r>=4.5?['ok','Todo texto (AA)']:r>=3?['lim','Solo títulos de 24 px o más']:['no','No usar para texto'];return `<tr><td>${p[0]}</td><td>${p[2]}</td><td class="mono">${r.toFixed(1).replace('.',',')} : 1</td><td class="${u[0]}">${u[1]}</td></tr>`}).join('');
+// piezas
+$('appCover').innerHTML=LIB.cover;$('appIg').innerHTML=LIB.instagram;$('appAvatar').innerHTML=LIB.avatar;$('appBadge').innerHTML=LIB.badge;$('appSenda').innerHTML=LIB.senda;
+// copiar
+const toast=$('toast');
+function copyText(t,label){const done=()=>{toast.textContent=label+' copiado al portapapeles.';setTimeout(()=>toast.textContent='',2500)};
+  try{navigator.clipboard.writeText(t).then(done,()=>fallback(t,label))}catch(e){fallback(t,label)}}
+function fallback(t,label){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast.textContent=label+' copiado al portapapeles.'}catch(e){toast.textContent='No se pudo copiar. Usa los archivos de la carpeta del equipo.'}ta.remove()}
+document.addEventListener('click',e=>{const b=e.target.closest('button[data-k]');if(b)copyText('<?xml version="1.0" encoding="UTF-8"?>\n'+LIB[b.dataset.k],'SVG')});
+$('copyIg').addEventListener('click',()=>copyText($('igCopy').textContent,'Texto'));
+// cielo
+const cv=$('sky'),g=cv.getContext('2d');let st=[];
+function size(){const r=cv.getBoundingClientRect(),d=Math.min(2,window.devicePixelRatio||1);cv.width=r.width*d;cv.height=r.height*d;let s=42;const rnd=()=>(s=(s*16807)%2147483647)/2147483647;st=Array.from({length:Math.round(r.width*r.height/2600)},()=>({x:rnd()*cv.width,y:rnd()*cv.height,z:rnd(),p:rnd()*6.28}))}
+const still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function draw(t){g.clearRect(0,0,cv.width,cv.height);const gr=g.createRadialGradient(cv.width*.85,cv.height*1.1,0,cv.width*.85,cv.height*1.1,cv.height*1.1);gr.addColorStop(0,'rgba(232,137,74,.22)');gr.addColorStop(1,'rgba(10,16,32,0)');g.fillStyle=gr;g.fillRect(0,0,cv.width,cv.height);
+  st.forEach(s=>{const a=.25+s.z*.6*(still?1:(.65+.35*Math.sin(t/900+s.p)));g.globalAlpha=a;g.fillStyle=s.z>.94?C.chispa:C.polvo;g.beginPath();g.arc(s.x,s.y,(.5+s.z*1.4)*(window.devicePixelRatio||1),0,7);g.fill()});g.globalAlpha=1;
+  if(!still)requestAnimationFrame(draw)}
+size();window.addEventListener('resize',()=>{size();if(still)draw(0)});requestAnimationFrame(draw);
+})();
+</script>

@@ -1,0 +1,10 @@
+# salidas locales (se regeneran con src/build.py)
+dist/
+# versión anterior, ya incluida en la app
+senda-consola.html
+# imagen descartada (desenfocada)
+src/senda/img/mahli.jpg
+# descargas intermedias
+src/vendor/fonts.css
+.vercel
+__pycache__/
