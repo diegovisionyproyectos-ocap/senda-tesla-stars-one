@@ -76,6 +76,24 @@ body{padding-top:64px}
 .ux-step .n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:600 13px var(--mo);color:var(--ux-tx);background:var(--ux-s2)}
 .ux-step b{font:600 17px var(--se);color:var(--ux-tx)}
 .ux-step.hl .n{background:var(--ux-blue);color:#fff}
+/* galería de modelos 3D */
+.ux-3d{display:grid;gap:16px;padding-block:8px 40px}
+.ux-3d-head{display:grid;gap:6px}
+.ux-h2{font:700 clamp(1.5rem,3.2vw,2.2rem)/1.1 var(--se);letter-spacing:-.02em;margin:0;color:var(--ux-tx)}
+.ux-3d-head p{margin:0;max-width:60ch}
+.ux-3d-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ux-3d-card{position:relative;display:grid;align-content:end;min-height:220px;border-radius:18px;overflow:hidden;text-decoration:none;color:var(--ux-tx);background:#070c18;isolation:isolate;transition:transform .25s}
+.ux-3d-card.big{grid-column:span 3;min-height:min(46vw,420px)}
+.ux-3d-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .5s ease}
+.ux-3d-card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(10,16,32,.92) 8%,rgba(10,16,32,.15) 60%,transparent)}
+.ux-3d-card div{display:grid;gap:4px;padding:18px 20px;font-size:14px;line-height:1.45;color:#cfd5e2}
+.ux-3d-card b{font:600 clamp(16px,1.6vw,20px)/1.2 var(--se);color:var(--ux-tx)}
+.ux-3d-card .tag3d{position:absolute;top:14px;left:14px;font:600 11px var(--mo);letter-spacing:.1em;padding:4px 9px;border-radius:999px;background:rgba(10,16,32,.7);color:var(--ux-cyan);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.ux-3d-card:hover img{transform:scale(1.04)}
+.ux-3d-card:focus-visible{outline:2px solid var(--ux-cyan);outline-offset:3px}
+@media (max-width:900px){.ux-3d-grid{grid-template-columns:minmax(0,1fr)}.ux-3d-card.big{grid-column:auto}.ux-3d-card{min-height:240px}}
+@media (prefers-reduced-motion:reduce){.ux-3d-card img{transition:none}.ux-3d-card:hover img{transform:none}}
+.gm-t{font:600 15px var(--se);margin:22px 0 8px;color:var(--ux-tx)}
 /* limpieza visual de las páginas del atlas */
 .w p{color:var(--ux-mu)}
 .box{background:var(--ux-s1);border:0;border-radius:var(--ux-r);padding:16px}

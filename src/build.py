@@ -82,7 +82,11 @@ rep('const PG=["mapa","ciencia",', 'const PG=["inicio","mapa","eva","consola","c
 rep('nv:["Mapa","Ciencia",', 'nv:["Inicio","Mapa","EVA 2 km","Consola","Ciencia",')
 rep('nv:["Map","Science",', 'nv:["Home","Map","2 km EVA","Console","Science",')
 rep('if(!PG.includes(h))h="mapa"', 'if(!PG.includes(h))h="inicio"')
-rep('<nav id="nv"></nav>', '<nav id="nv"></nav>' + (SRC / "ux" / "inicio.html").read_text(encoding="utf-8"))
+inicio = (SRC / "ux" / "inicio.html").read_text(encoding="utf-8")
+for n in ("modulo", "mapa", "caminata", "globo"):
+    b64 = base64.b64encode((SRC / "ux" / "thumbs" / f"{n}.jpg").read_bytes()).decode()
+    inicio = inicio.replace(f'src="thumbs/{n}.jpg"', f'src="data:image/jpeg;base64,{b64}"')
+rep('<nav id="nv"></nav>', '<nav id="nv"></nav>' + inicio)
 
 # 5. imágenes de Curiosity incrustadas
 for n in ("fhaz", "nav", "rmi"):
@@ -96,7 +100,8 @@ rep('<canvas id="gm" style="width:100%;display:block;border-radius:8px"></canvas
     '<div class="glb-btns" id="glbBtns"></div>'
     '<p class="glb-src">Globo con el mosaico Viking MDIM2.1 (NASA/JPL/USGS, dominio público). Posiciones de los sitios en coordenadas reales.</p>'
     '</div></div>'
-    '<canvas id="gm" hidden style="width:100%;display:block;border-radius:8px"></canvas>')
+    '<p class="gm-t">Mapa plano de los candidatos</p>'
+    '<canvas id="gm" style="width:100%;display:block;border-radius:14px"></canvas>')
 mars_b64 = base64.b64encode((SRC / "vendor" / "mars-viking-1920.jpg").read_bytes()).decode()
 globe_js = (SRC / "globe" / "globe.js").read_text(encoding="utf-8").replace("@@MARS_TEX@@", "data:image/jpeg;base64," + mars_b64)
 
